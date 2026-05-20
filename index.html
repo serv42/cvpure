@@ -12,9 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap');
-        :root {
-            --accent-color: #6B46C1;
-        }
+        :root { --accent-color: #6B46C1; }
         .a4-preview {
             width: 794px;
             min-height: 1123px;
@@ -23,68 +21,31 @@
             margin: 0 auto;
             position: relative;
             overflow: hidden;
+            transition: box-shadow 0.3s;
         }
-        .cv-section {
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        @media (max-width: 900px) {
+            .a4-preview { width: 100%; max-width: 380px; min-height: 540px; transform: scale(0.95); margin: 0 auto; }
         }
-        .editable {
-            transition: background-color 0.1s;
-        }
-        .editable:hover {
-            background-color: #f8fafc;
-        }
-        .template-modern .accent-bar {
-            background: linear-gradient(to right, var(--accent-color), #4F46E5);
-        }
-        .template-classic {
-            font-family: 'Georgia', serif;
-        }
-        .template-creative {
-            background: linear-gradient(to bottom, #f8fafc, white);
-        }
-        .section-header {
-            color: var(--accent-color);
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 4px;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-        .nav-active {
-            color: #6B46C1;
-            border-bottom: 2px solid #6B46C1;
-        }
-        .cv-card {
-            transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 0.3s;
-        }
-        .cv-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-        }
-        .sortable-ghost {
-            opacity: 0.4;
-            background: #e0e7ff;
-        }
-        .toast {
-            animation: slideUp 0.3s ease forwards;
-        }
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        .preview-editable {
-            outline: none;
-        }
-        .preview-editable:focus {
-            background-color: #fefce8;
-            box-shadow: 0 0 0 2px #fde047;
-        }
-        .mini-preview {
-            width: 100%;
-            height: 120px;
-            overflow: hidden;
-            border: 1px solid #e5e7eb;
-            position: relative;
-        }
+        .cv-section { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
+        .editable { transition: background-color 0.1s; }
+        .editable:hover { background-color: #f8fafc; }
+        .template-modern .accent-bar { background: linear-gradient(to right, var(--accent-color), #4F46E5); }
+        .template-classic { font-family: 'Georgia', serif; }
+        .template-creative { background: linear-gradient(to bottom, #f8fafc, white); }
+        .section-header { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 4px; margin-bottom: 12px; font-weight: 600; }
+        .nav-active { color: #6B46C1; border-bottom: 2px solid #6B46C1; }
+        .cv-card { transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 0.3s; }
+        .cv-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+        .sortable-ghost { opacity: 0.4; background: #e0e7ff; }
+        .toast { animation: slideUp 0.3s ease forwards; }
+        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .preview-editable { outline: none; }
+        .preview-editable:focus { background-color: #fefce8; box-shadow: 0 0 0 2px #fde047; }
+        .mini-preview { width: 100%; height: 120px; overflow: hidden; border: 1px solid #e5e7eb; position: relative; }
+        .slider { transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
+        .slider.open { transform: translateX(0); }
+        .slider.left { transform: translateX(-100%); }
+        .slider.right { transform: translateX(100%); }
     </style>
 </head>
 <body class="bg-slate-50 font-sans">
@@ -185,7 +146,7 @@
                 <div class="flex justify-between items-end mb-10">
                     <div>
                         <span class="text-violet-600 font-semibold">VORLAGEN</span>
-                        <h2 class="text-4xl font-semibold tracking-tight">Wähle dein perfektes Design</h2>
+                        <h2 class="text-4xl font-semibold tracking-tight mt-4 mb-12">Wähle dein perfektes Design</h2>
                     </div>
                     <button onclick="showView('templates')" class="text-violet-600 font-medium flex items-center gap-x-2">Alle ansehen <i class="fas fa-arrow-right"></i></button>
                 </div>
@@ -337,200 +298,180 @@
 
     <!-- EDITOR VIEW -->
     <div id="editor-view" class="hidden">
-        <div class="max-w-[1400px] mx-auto px-4 py-6">
-            <!-- Editor Header -->
-            <div class="flex items-center justify-between mb-6 px-2">
+        <div class="max-w-[1200px] mx-auto px-4 py-6">
+            <!-- Editor Top Bar -->
+            <div class="flex items-center justify-between mb-6 px-2 flex-wrap gap-y-3">
                 <div class="flex items-center gap-x-4">
                     <button onclick="showView('templates')" class="flex items-center gap-x-2 text-sm text-slate-600 hover:text-slate-900">
-                        <i class="fas fa-arrow-left"></i> <span>Zurück zu Vorlagen</span>
+                        <i class="fas fa-arrow-left"></i> <span>Zurück</span>
                     </button>
                     <div class="h-6 w-px bg-slate-200"></div>
-                    <div>
+                    <div class="flex items-center gap-x-3">
                         <span class="font-semibold text-lg" id="current-cv-name">Neuer Lebenslauf</span>
-                        <span class="text-xs text-emerald-600 ml-2 px-2 py-0.5 bg-emerald-100 rounded-full">Auto-Save aktiv</span>
+                        <span class="text-xs text-emerald-600 px-2.5 py-0.5 bg-emerald-100 rounded-full">Auto-Save</span>
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-x-3">
-                    <button onclick="saveCurrentCV()" class="px-5 py-2.5 text-sm font-medium border border-slate-300 rounded-xl flex items-center gap-x-2 hover:bg-white">
-                        <i class="fas fa-save"></i> <span>Speichern</span>
+                <div class="flex items-center gap-x-2">
+                    <!-- Mobile-friendly slider buttons -->
+                    <button onclick="openLeftSlider()" class="px-4 py-2.5 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
+                        <i class="fas fa-bars"></i>
+                        <span class="hidden sm:inline">Abschnitte</span>
                     </button>
-                    <button onclick="exportPDF()" class="px-6 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold rounded-xl flex items-center gap-x-2 shadow-lg shadow-violet-200">
-                        <i class="fas fa-file-pdf"></i> <span>Als PDF exportieren</span>
+                    
+                    <button onclick="openRightSlider()" class="px-4 py-2.5 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
+                        <i class="fas fa-palette"></i>
+                        <span class="hidden sm:inline">Design & KI</span>
+                    </button>
+
+                    <button onclick="saveCurrentCV()" class="px-5 py-2.5 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
+                        <i class="fas fa-save"></i> <span class="hidden sm:inline">Speichern</span>
+                    </button>
+                    <button onclick="exportPDF()" class="px-6 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold rounded-2xl flex items-center gap-x-2 shadow-lg shadow-violet-200">
+                        <i class="fas fa-file-pdf"></i> <span>PDF</span>
                     </button>
                 </div>
             </div>
 
-            <div class="flex gap-6">
-                <!-- LEFT SIDEBAR: Sections -->
-                <div class="w-72 bg-white border border-slate-200 rounded-3xl p-5 flex-shrink-0 h-[calc(100vh-140px)] overflow-y-auto">
-                    <div class="flex items-center justify-between mb-4 px-1">
-                        <div class="font-semibold text-sm uppercase tracking-widest text-slate-500">Abschnitte</div>
-                        <button onclick="addNewSection()" class="text-violet-600 hover:text-violet-700 text-sm flex items-center gap-x-1">
-                            <i class="fas fa-plus"></i> <span class="font-medium">Neu</span>
-                        </button>
+            <!-- CENTER: A4 PREVIEW (now full width focus) -->
+            <div class="flex justify-center">
+                <div id="preview-container" class="relative">
+                    <div id="a4-preview" class="a4-preview border border-slate-300 rounded-3xl overflow-hidden template-modern" 
+                         style="box-shadow: 0 35px 60px -15px rgb(15 23 42 / 0.3);">
+                        <!-- Dynamic CV content -->
                     </div>
-                    
-                    <ul id="sections-list" class="space-y-1 text-sm">
-                        <!-- Populated dynamically -->
-                    </ul>
-                    
-                    <div class="mt-8 pt-6 border-t border-slate-100">
-                        <div class="text-xs uppercase tracking-widest text-slate-500 mb-3 px-1">Schnellaktionen</div>
-                        <button onclick="clearAllData()" class="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-xl flex items-center gap-x-2">
-                            <i class="fas fa-trash-alt"></i> <span>Alle Daten löschen</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- CENTER: A4 PREVIEW -->
-                <div class="flex-1 flex justify-center">
-                    <div id="preview-container" class="relative">
-                        <div id="a4-preview" class="a4-preview border border-slate-300 rounded-xl overflow-hidden template-modern" style="box-shadow: 0 35px 60px -15px rgb(15 23 42 / 0.3);">
-                            <!-- Dynamic CV content injected here by renderPreview() -->
-                        </div>
-                        <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full text-xs text-slate-500 border shadow-sm flex items-center gap-x-1">
-                            <i class="fas fa-info-circle"></i> <span>A4 Vorschau • 210 × 297 mm</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RIGHT SIDEBAR: Design + AI -->
-                <div class="w-72 bg-white border border-slate-200 rounded-3xl p-5 flex-shrink-0 h-[calc(100vh-140px)] overflow-y-auto">
-                    <div class="font-semibold text-sm uppercase tracking-widest text-slate-500 mb-4 px-1">Design</div>
-                    
-                    <!-- Template Switcher -->
-                    <div class="mb-6">
-                        <label class="text-xs text-slate-500 block mb-1.5">Vorlage</label>
-                        <select id="template-select" onchange="changeTemplate(this.value)" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm">
-                            <option value="modern">Modern (Standard)</option>
-                            <option value="classic">Classic</option>
-                            <option value="creative">Creative</option>
-                            <option value="minimal">Minimal</option>
-                            <option value="tech">Tech</option>
-                            <option value="executive">Executive</option>
-                        </select>
-                    </div>
-
-                    <!-- Color -->
-                    <div class="mb-6">
-                        <label class="text-xs text-slate-500 block mb-1.5">Akzentfarbe</label>
-                        <div class="flex items-center gap-x-3">
-                            <input type="color" id="accent-color-picker" value="#6B46C1" onchange="changeAccentColor(this.value)" class="w-12 h-9 border border-slate-200 rounded-lg overflow-hidden p-0.5 cursor-pointer">
-                            <div class="flex-1 text-sm text-slate-600" id="accent-color-hex">#6B46C1</div>
-                        </div>
-                    </div>
-
-                    <!-- Font -->
-                    <div class="mb-6">
-                        <label class="text-xs text-slate-500 block mb-1.5">Schriftart</label>
-                        <select id="font-select" onchange="changeFont(this.value)" class="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm">
-                            <option value="Inter, system-ui, sans-serif">Inter (Modern)</option>
-                            <option value="Georgia, 'Times New Roman', serif">Georgia (Klassisch)</option>
-                            <option value="system-ui, -apple-system, sans-serif">System UI</option>
-                            <option value="'Playfair Display', Georgia, serif">Playfair Display</option>
-                        </select>
-                    </div>
-
-                    <!-- AI Section -->
-                    <div class="pt-6 border-t border-slate-100">
-                        <div class="flex items-center gap-x-2 mb-3">
-                            <i class="fas fa-robot text-violet-600"></i>
-                            <span class="font-semibold text-sm">KI-Assistent</span>
-                        </div>
-                        
-                        <div class="space-y-2">
-                            <button onclick="generateSummaryWithAI()" class="w-full text-left px-4 py-3 bg-violet-50 hover:bg-violet-100 transition-colors rounded-2xl text-sm flex items-center gap-x-3">
-                                <i class="fas fa-magic text-violet-600 w-4"></i>
-                                <span>Zusammenfassung mit KI generieren</span>
-                            </button>
-                            
-                            <button onclick="improveBulletsWithAI()" class="w-full text-left px-4 py-3 bg-violet-50 hover:bg-violet-100 transition-colors rounded-2xl text-sm flex items-center gap-x-3">
-                                <i class="fas fa-magic text-violet-600 w-4"></i>
-                                <span>Bullet Points verbessern</span>
-                            </button>
-                            
-                            <button onclick="suggestSkillsWithAI()" class="w-full text-left px-4 py-3 bg-violet-50 hover:bg-violet-100 transition-colors rounded-2xl text-sm flex items-center gap-x-3">
-                                <i class="fas fa-magic text-violet-600 w-4"></i>
-                                <span>Fähigkeiten vorschlagen</span>
-                            </button>
-                        </div>
+                    <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full text-xs text-slate-500 border shadow-sm flex items-center gap-x-1">
+                        <i class="fas fa-info-circle"></i> <span>A4 Vorschau • 210 × 297 mm</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- LEFT SLIDER: Abschnitte -->
+    <div id="left-slider" class="slider left fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[100] border-r border-slate-200 flex flex-col">
+        <div class="p-5 border-b flex items-center justify-between">
+            <div class="font-semibold text-lg flex items-center gap-x-2">
+                <i class="fas fa-bars text-violet-600"></i> 
+                <span>Abschnitte</span>
+            </div>
+            <button onclick="closeLeftSlider()" class="text-2xl text-slate-400 hover:text-slate-600">&times;</button>
+        </div>
+        
+        <div class="p-5 flex-1 overflow-y-auto">
+            <div class="flex items-center justify-between mb-4 px-1">
+                <div class="font-semibold text-sm uppercase tracking-widest text-slate-500">Deine Abschnitte</div>
+                <button onclick="addNewSection(); closeLeftSlider();" class="text-violet-600 hover:text-violet-700 text-sm flex items-center gap-x-1 font-medium">
+                    <i class="fas fa-plus"></i> <span>Neu</span>
+                </button>
+            </div>
+            
+            <ul id="sections-list" class="space-y-1 text-sm">
+                <!-- Populated by JS -->
+            </ul>
+            
+            <div class="mt-8 pt-6 border-t border-slate-100">
+                <div class="text-xs uppercase tracking-widest text-slate-500 mb-3 px-1">Schnellaktionen</div>
+                <button onclick="clearAllData(); closeLeftSlider();" class="w-full text-left px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-xl flex items-center gap-x-2">
+                    <i class="fas fa-trash-alt"></i> <span>Alle Daten löschen</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT SLIDER: Design + KI -->
+    <div id="right-slider" class="slider right fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-[100] border-l border-slate-200 flex flex-col">
+        <div class="p-5 border-b flex items-center justify-between">
+            <div class="font-semibold text-lg flex items-center gap-x-2">
+                <i class="fas fa-palette text-violet-600"></i> 
+                <span>Design & KI</span>
+            </div>
+            <button onclick="closeRightSlider()" class="text-2xl text-slate-400 hover:text-slate-600">&times;</button>
+        </div>
+        
+        <div class="p-5 flex-1 overflow-y-auto space-y-8">
+            <!-- Vorlage -->
+            <div>
+                <label class="text-xs text-slate-500 block mb-1.5 font-medium">VORLAGE</label>
+                <select id="template-select" onchange="changeTemplate(this.value); closeRightSlider();" class="w-full border border-slate-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-violet-300">
+                    <option value="modern">Modern (Standard)</option>
+                    <option value="classic">Classic</option>
+                    <option value="creative">Creative</option>
+                    <option value="minimal">Minimal</option>
+                    <option value="tech">Tech</option>
+                    <option value="executive">Executive</option>
+                </select>
+            </div>
+
+            <!-- Akzentfarbe -->
+            <div>
+                <label class="text-xs text-slate-500 block mb-1.5 font-medium">AKZENTFARBE</label>
+                <div class="flex items-center gap-x-3">
+                    <input type="color" id="accent-color-picker" value="#6B46C1" onchange="changeAccentColor(this.value)" class="w-14 h-10 border border-slate-200 rounded-2xl overflow-hidden p-1 cursor-pointer">
+                    <div class="flex-1">
+                        <div class="font-mono text-sm text-slate-700" id="accent-color-hex">#6B46C1</div>
+                        <div class="text-[10px] text-slate-400">Klicke zum Ändern</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Schriftart -->
+            <div>
+                <label class="text-xs text-slate-500 block mb-1.5 font-medium">SCHRIFTART</label>
+                <select id="font-select" onchange="changeFont(this.value); closeRightSlider();" class="w-full border border-slate-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-violet-300">
+                    <option value="Inter, system-ui, sans-serif">Inter (Modern)</option>
+                    <option value="Georgia, 'Times New Roman', serif">Georgia (Klassisch)</option>
+                    <option value="system-ui, -apple-system, sans-serif">System UI</option>
+                    <option value="'Playfair Display', Georgia, serif">Playfair Display</option>
+                </select>
+            </div>
+
+            <!-- KI-Assistent -->
+            <div class="pt-4 border-t border-slate-100">
+                <div class="flex items-center gap-x-2 mb-4">
+                    <i class="fas fa-robot text-violet-600 text-xl"></i>
+                    <span class="font-semibold text-base">KI-Assistent</span>
+                </div>
+                
+                <div class="space-y-3">
+                    <button onclick="generateSummaryWithAI(); closeRightSlider();" class="w-full text-left px-5 py-3.5 bg-violet-50 hover:bg-violet-100 active:bg-violet-200 transition-colors rounded-2xl text-sm flex items-center gap-x-3">
+                        <i class="fas fa-magic text-violet-600"></i>
+                        <span class="font-medium">Zusammenfassung mit KI generieren</span>
+                    </button>
+                    
+                    <button onclick="improveBulletsWithAI(); closeRightSlider();" class="w-full text-left px-5 py-3.5 bg-violet-50 hover:bg-violet-100 active:bg-violet-200 transition-colors rounded-2xl text-sm flex items-center gap-x-3">
+                        <i class="fas fa-magic text-violet-600"></i>
+                        <span class="font-medium">Bullet Points verbessern</span>
+                    </button>
+                    
+                    <button onclick="suggestSkillsWithAI(); closeRightSlider();" class="w-full text-left px-5 py-3.5 bg-violet-50 hover:bg-violet-100 active:bg-violet-200 transition-colors rounded-2xl text-sm flex items-center gap-x-3">
+                        <i class="fas fa-magic text-violet-600"></i>
+                        <span class="font-medium">Fähigkeiten vorschlagen</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay for sliders -->
+    <div id="slider-overlay" onclick="closeAllSliders()" class="hidden fixed inset-0 bg-black/40 z-[90]"></div>
+
     <!-- Toast Container -->
-    <div id="toast-container" class="fixed bottom-6 right-6 z-[100] space-y-2"></div>
+    <div id="toast-container" class="fixed bottom-6 right-6 z-[200] space-y-2"></div>
 
     <script>
-        // Tailwind script
         function initTailwind() {
             document.documentElement.style.setProperty('--accent-color', '#6B46C1');
         }
 
-        // Global State
         let cvData = {
-            personal: {
-                name: "Max Mustermann",
-                title: "Senior Software Engineer",
-                email: "max.mustermann@email.com",
-                phone: "+49 151 23456789",
-                location: "Berlin, Deutschland",
-                website: "https://maxmustermann.dev",
-                linkedin: "https://linkedin.com/in/maxmustermann",
-                photo: ""
-            },
+            personal: { name: "Max Mustermann", title: "Senior Software Engineer", email: "max.mustermann@email.com", phone: "+49 151 23456789", location: "Berlin, Deutschland", website: "https://maxmustermann.dev", linkedin: "https://linkedin.com/in/maxmustermann", photo: "" },
             summary: "Erfahrener Softwareentwickler mit über 8 Jahren Erfahrung in der Entwicklung skalierbarer Webanwendungen. Spezialisiert auf moderne JavaScript-Frameworks und Cloud-Architekturen. Nachweislich erfolgreich in der Führung agiler Teams und der Lieferung von Projekten mit hohem Business-Impact.",
-            experience: [
-                {
-                    id: 1,
-                    company: "TechNova GmbH",
-                    position: "Senior Fullstack Developer",
-                    start: "2021-03",
-                    end: "Heute",
-                    bullets: [
-                        "Entwicklung und Wartung einer Microservices-Architektur mit über 2 Mio. Nutzern",
-                        "Führung eines 6-köpfigen Teams und Einführung von CI/CD-Pipelines",
-                        "Reduzierung der Ladezeiten um 45 % durch Performance-Optimierungen"
-                    ]
-                },
-                {
-                    id: 2,
-                    company: "StartupHub Berlin",
-                    position: "Fullstack Developer",
-                    start: "2019-01",
-                    end: "2021-02",
-                    bullets: [
-                        "Aufbau der kompletten Frontend-Infrastruktur mit React & Next.js",
-                        "Implementierung einer Echtzeit-Chat-Funktion mit WebSockets"
-                    ]
-                }
-            ],
-            education: [
-                {
-                    id: 1,
-                    institution: "Technische Universität Berlin",
-                    degree: "M.Sc. Informatik",
-                    start: "2015-10",
-                    end: "2018-09",
-                    description: "Schwerpunkt: Verteilte Systeme & Machine Learning"
-                }
-            ],
+            experience: [ { id: 1, company: "TechNova GmbH", position: "Senior Fullstack Developer", start: "2021-03", end: "Heute", bullets: ["Entwicklung und Wartung einer Microservices-Architektur mit über 2 Mio. Nutzern", "Führung eines 6-köpfigen Teams und Einführung von CI/CD-Pipelines", "Reduzierung der Ladezeiten um 45 % durch Performance-Optimierungen"] }, { id: 2, company: "StartupHub Berlin", position: "Fullstack Developer", start: "2019-01", end: "2021-02", bullets: ["Aufbau der kompletten Frontend-Infrastruktur mit React & Next.js", "Implementierung einer Echtzeit-Chat-Funktion mit WebSockets"] } ],
+            education: [ { id: 1, institution: "Technische Universität Berlin", degree: "M.Sc. Informatik", start: "2015-10", end: "2018-09", description: "Schwerpunkt: Verteilte Systeme & Machine Learning" } ],
             skills: ["JavaScript", "TypeScript", "React", "Node.js", "Python", "AWS", "Docker", "PostgreSQL"],
-            languages: [
-                { language: "Deutsch", level: "Muttersprache" },
-                { language: "Englisch", level: "Verhandlungssicher (C1)" }
-            ],
-            projects: [
-                {
-                    id: 1,
-                    name: "CVPure.app",
-                    description: "Open-Source CV-Builder mit Vanilla JS & Tailwind",
-                    link: "https://github.com/serv42/cvpure"
-                }
-            ],
+            languages: [ { language: "Deutsch", level: "Muttersprache" }, { language: "Englisch", level: "Verhandlungssicher (C1)" } ],
+            projects: [ { id: 1, name: "CVPure.app", description: "Open-Source CV-Builder mit Vanilla JS & Tailwind", link: "https://github.com/serv42/cvpure" } ],
             template: "modern",
             accentColor: "#6B46C1",
             font: "Inter, system-ui, sans-serif"
@@ -540,7 +481,6 @@
         let sortableInstance = null;
         let currentCVId = null;
 
-        // Sample templates data for templates view
         const templatesData = [
             { id: 'modern', name: 'Modern', category: 'modern', desc: 'Beliebt bei Tech & Startups', color: '#6B46C1' },
             { id: 'classic', name: 'Classic', category: 'classic', desc: 'Zeitlos & elegant', color: '#854d0e' },
@@ -554,6 +494,7 @@
             document.getElementById('landing-view').classList.add('hidden');
             document.getElementById('templates-view').classList.add('hidden');
             document.getElementById('editor-view').classList.add('hidden');
+            closeAllSliders();
 
             if (view === 'landing') {
                 document.getElementById('landing-view').classList.remove('hidden');
@@ -563,7 +504,7 @@
             } else if (view === 'editor') {
                 document.getElementById('editor-view').classList.remove('hidden');
                 renderPreview();
-                initSortable();
+                renderSectionsList();
             }
             currentView = view;
         }
@@ -571,7 +512,6 @@
         function renderTemplates(filtered = templatesData) {
             const grid = document.getElementById('templates-grid');
             grid.innerHTML = '';
-
             filtered.forEach(t => {
                 const card = document.createElement('div');
                 card.className = `cv-card cursor-pointer bg-white border border-slate-200 rounded-3xl overflow-hidden`;
@@ -591,8 +531,7 @@
                                 <div class="font-semibold text-lg">${t.name}</div>
                                 <div class="text-xs text-slate-500">${t.desc}</div>
                             </div>
-                            <button onclick="event.stopImmediatePropagation(); selectTemplateAndEdit('${t.id}')" 
-                                    class="px-4 py-1.5 text-xs bg-violet-600 text-white rounded-xl font-medium">Verwenden</button>
+                            <button onclick="event.stopImmediatePropagation(); selectTemplateAndEdit('${t.id}')" class="px-4 py-1.5 text-xs bg-violet-600 text-white rounded-2xl font-medium">Verwenden</button>
                         </div>
                     </div>
                 `;
@@ -603,50 +542,36 @@
 
         function filterTemplates() {
             const search = document.getElementById('template-search').value.toLowerCase();
-            const filtered = templatesData.filter(t => 
-                t.name.toLowerCase().includes(search) || 
-                t.desc.toLowerCase().includes(search)
-            );
+            const filtered = templatesData.filter(t => t.name.toLowerCase().includes(search) || t.desc.toLowerCase().includes(search));
             renderTemplates(filtered);
         }
 
         function filterTemplatesByCategory(cat) {
-            // Highlight active button
             document.querySelectorAll('#template-filters button').forEach(b => b.classList.remove('active', 'bg-violet-600', 'text-white'));
             document.querySelectorAll('#template-filters button').forEach(b => b.classList.add('bg-white', 'border', 'border-slate-200'));
             
-            const activeBtn = Array.from(document.querySelectorAll('#template-filters button')).find(b => 
-                (cat === 'all' && b.textContent === 'Alle') || b.textContent.toLowerCase() === cat
-            );
+            const activeBtn = Array.from(document.querySelectorAll('#template-filters button')).find(b => (cat === 'all' && b.textContent === 'Alle') || b.textContent.toLowerCase() === cat);
             if (activeBtn) {
                 activeBtn.classList.add('active', 'bg-violet-600', 'text-white');
                 activeBtn.classList.remove('bg-white', 'border', 'border-slate-200');
             }
 
             let filtered = templatesData;
-            if (cat !== 'all') {
-                filtered = templatesData.filter(t => t.category === cat);
-            }
+            if (cat !== 'all') filtered = templatesData.filter(t => t.category === cat);
             renderTemplates(filtered);
         }
 
         function selectTemplateAndEdit(templateId) {
             cvData.template = templateId;
             document.getElementById('template-select').value = templateId;
-            
-            // If coming from landing or templates, open editor
             showView('editor');
-            
-            // Update preview immediately
-            setTimeout(() => {
-                renderPreview();
-            }, 50);
+            setTimeout(() => renderPreview(), 50);
         }
 
         function changeTemplate(newTemplate) {
             cvData.template = newTemplate;
             const preview = document.getElementById('a4-preview');
-            preview.className = `a4-preview border border-slate-300 rounded-xl overflow-hidden template-${newTemplate}`;
+            preview.className = `a4-preview border border-slate-300 rounded-3xl overflow-hidden template-${newTemplate}`;
             renderPreview();
             showToast('Vorlage geändert');
         }
@@ -661,21 +586,6 @@
         function changeFont(font) {
             cvData.font = font;
             renderPreview();
-        }
-
-        function initSortable() {
-            const list = document.getElementById('sections-list');
-            if (sortableInstance) sortableInstance.destroy();
-            
-            sortableInstance = Sortable.create(list, {
-                animation: 150,
-                ghostClass: 'sortable-ghost',
-                onEnd: function(evt) {
-                    // Reorder sections in cvData if needed (simplified)
-                    showToast('Reihenfolge gespeichert');
-                    renderPreview();
-                }
-            });
         }
 
         function renderSectionsList() {
@@ -694,13 +604,13 @@
 
             sections.forEach(sec => {
                 const li = document.createElement('li');
-                li.className = `flex items-center justify-between px-3 py-2.5 rounded-2xl hover:bg-slate-50 group cursor-grab`;
+                li.className = `flex items-center justify-between px-4 py-3 rounded-2xl hover:bg-slate-50 group cursor-grab border border-transparent hover:border-slate-200`;
                 li.innerHTML = `
                     <div class="flex items-center gap-x-3">
                         <i class="fas fa-${sec.icon} text-slate-400 w-4"></i>
                         <span class="font-medium text-sm">${sec.label}</span>
                     </div>
-                    <div class="flex items-center gap-x-1 opacity-70 group-hover:opacity-100">
+                    <div class="flex items-center gap-x-1 opacity-60 group-hover:opacity-100">
                         <button onclick="event.stopImmediatePropagation(); toggleSectionVisibility('${sec.key}', this)" class="p-1.5 hover:bg-slate-200 rounded-lg">
                             <i class="fas fa-eye text-emerald-500"></i>
                         </button>
@@ -710,17 +620,18 @@
                     </div>
                 `;
                 li.onclick = () => {
-                    // Scroll to section in preview or focus
                     const preview = document.getElementById('a4-preview');
                     const target = preview.querySelector(`[data-section="${sec.key}"]`);
-                    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        closeLeftSlider();
+                    }
                 };
                 list.appendChild(li);
             });
         }
 
         function toggleSectionVisibility(key, btn) {
-            // Simple toggle visual (full impl would hide in preview)
             const icon = btn.querySelector('i');
             if (icon.classList.contains('fa-eye')) {
                 icon.classList.replace('fa-eye', 'fa-eye-slash');
@@ -734,7 +645,6 @@
 
         function deleteSection(key) {
             if (confirm(`Abschnitt "${key}" wirklich entfernen?`)) {
-                // In full impl, remove from cvData
                 showToast('Abschnitt entfernt (Demo)');
                 renderPreview();
             }
@@ -745,30 +655,11 @@
             if (!type) return;
 
             if (type === 'experience') {
-                cvData.experience.push({
-                    id: Date.now(),
-                    company: 'Neues Unternehmen',
-                    position: 'Position',
-                    start: '2024-01',
-                    end: 'Heute',
-                    bullets: ['Neue Aufgabe hier beschreiben']
-                });
+                cvData.experience.push({ id: Date.now(), company: 'Neues Unternehmen', position: 'Position', start: '2024-01', end: 'Heute', bullets: ['Neue Leistung hier beschreiben'] });
             } else if (type === 'education') {
-                cvData.education.push({
-                    id: Date.now(),
-                    institution: 'Neue Hochschule',
-                    degree: 'Abschluss',
-                    start: '2020-10',
-                    end: '2024-09',
-                    description: ''
-                });
+                cvData.education.push({ id: Date.now(), institution: 'Neue Hochschule', degree: 'Abschluss', start: '2020-10', end: '2024-09', description: '' });
             } else if (type === 'projects') {
-                cvData.projects.push({
-                    id: Date.now(),
-                    name: 'Neues Projekt',
-                    description: 'Beschreibung',
-                    link: ''
-                });
+                cvData.projects.push({ id: Date.now(), name: 'Neues Projekt', description: 'Beschreibung', link: '' });
             } else if (type === 'skills') {
                 cvData.skills.push('Neue Fähigkeit');
             } else if (type === 'languages') {
@@ -787,16 +678,16 @@
             document.documentElement.style.setProperty('--accent-color', cvData.accentColor);
 
             const templateClass = `template-${cvData.template}`;
-            preview.className = `a4-preview border border-slate-300 rounded-xl overflow-hidden ${templateClass}`;
+            preview.className = `a4-preview border border-slate-300 rounded-3xl overflow-hidden ${templateClass}`;
 
             let html = '';
 
-            // Header with photo
+            // Header
             html += `
                 <div class="px-10 pt-10 pb-8 flex items-start gap-x-6 border-b border-slate-200" style="background: linear-gradient(to right, ${cvData.accentColor}08, transparent);">
                     ${cvData.personal.photo ? 
                         `<img src="${cvData.personal.photo}" class="w-24 h-24 rounded-2xl object-cover border-4 border-white shadow-md flex-shrink-0" style="box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);">` : 
-                        `<div class="w-24 h-24 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center flex-shrink-0">
+                        `<div onclick="uploadPhoto()" class="w-24 h-24 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center flex-shrink-0 cursor-pointer hover:brightness-95">
                             <i class="fas fa-user text-4xl text-slate-400"></i>
                         </div>`
                     }
@@ -838,14 +729,11 @@
                                     <div contenteditable="true" onblur="updateExperienceFromPreview(this, ${idx}, 'company')" class="preview-editable text-violet-700 font-medium">${exp.company}</div>
                                 </div>
                                 <div class="text-right text-xs text-slate-500 font-mono pt-1">
-                                    <span contenteditable="true" onblur="updateExperienceFromPreview(this, ${idx}, 'start')">${exp.start}</span> — 
-                                    <span contenteditable="true" onblur="updateExperienceFromPreview(this, ${idx}, 'end')">${exp.end}</span>
+                                    <span contenteditable="true" onblur="updateExperienceFromPreview(this, ${idx}, 'start')">${exp.start}</span> — <span contenteditable="true" onblur="updateExperienceFromPreview(this, ${idx}, 'end')">${exp.end}</span>
                                 </div>
                             </div>
                             <div class="mt-2 pl-px">
-                                ${exp.bullets.map((b, bIdx) => 
-                                    `<div contenteditable="true" onblur="updateExperienceBullet(this, ${idx}, ${bIdx})" class="preview-editable text-[13.2px] leading-snug text-slate-700 mb-1 flex gap-x-2"><span class="text-violet-500 mt-1.5">•</span> <span class="flex-1">${b}</span></div>`
-                                ).join('')}
+                                ${exp.bullets.map((b, bIdx) => `<div contenteditable="true" onblur="updateExperienceBullet(this, ${idx}, ${bIdx})" class="preview-editable text-[13.2px] leading-snug text-slate-700 mb-1 flex gap-x-2"><span class="text-violet-500 mt-1.5">•</span> <span class="flex-1">${b}</span></div>`).join('')}
                             </div>
                             <button onclick="addBulletToExperience(${idx})" class="text-xs text-violet-600 hover:text-violet-700 mt-1 opacity-0 group-hover:opacity-100 flex items-center gap-x-1"><i class="fas fa-plus text-xs"></i> Bullet hinzufügen</button>
                         </div>
@@ -881,79 +769,54 @@
                             <button onclick="suggestSkillsWithAI()" class="text-xs px-3 py-1 bg-violet-100 text-violet-700 rounded-full flex items-center gap-x-1 hover:bg-violet-200"><i class="fas fa-magic text-xs"></i> <span>KI</span></button>
                         </div>
                         <div class="flex flex-wrap gap-2 mt-3">
-                            ${cvData.skills.map((skill, sIdx) => 
-                                `<span contenteditable="true" onblur="updateSkillFromPreview(this, ${sIdx})" class="preview-editable inline-block px-4 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">${skill}</span>`
-                            ).join('')}
+                            ${cvData.skills.map((skill, sIdx) => `<span contenteditable="true" onblur="updateSkillFromPreview(this, ${sIdx})" class="preview-editable inline-block px-4 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">${skill}</span>`).join('')}
                         </div>
                     </div>
                 `;
             }
 
-            // Languages & Projects combined for space
+            // Languages
             if (cvData.languages && cvData.languages.length > 0) {
                 html += `
                     <div class="px-10 pt-8 pb-10" data-section="languages">
                         <div class="section-header text-sm tracking-[1px]">SPRACHEN</div>
                         <div class="grid grid-cols-2 gap-x-8 mt-3 text-sm">
-                            ${cvData.languages.map((lang, lIdx) => 
-                                `<div><span contenteditable="true" onblur="updateLanguageFromPreview(this, ${lIdx}, 'language')" class="preview-editable font-medium">${lang.language}</span> <span class="text-slate-500">—</span> <span contenteditable="true" onblur="updateLanguageFromPreview(this, ${lIdx}, 'level')" class="preview-editable text-slate-600">${lang.level}</span></div>`
-                            ).join('')}
+                            ${cvData.languages.map((lang, lIdx) => `<div><span contenteditable="true" onblur="updateLanguageFromPreview(this, ${lIdx}, 'language')" class="preview-editable font-medium">${lang.language}</span> <span class="text-slate-500">—</span> <span contenteditable="true" onblur="updateLanguageFromPreview(this, ${lIdx}, 'level')" class="preview-editable text-slate-600">${lang.level}</span></div>`).join('')}
                         </div>
                     </div>
                 `;
             }
 
             preview.innerHTML = html;
-
-            // Make all preview contenteditable elements save on change
-            // (already handled by onblur)
         }
 
-        // Update functions from preview
-        function updatePersonalFromPreview(element, field) {
-            cvData.personal[field] = element.textContent.trim();
-            // No re-render needed for personal usually
+        function updatePersonalFromPreview(element, field) { cvData.personal[field] = element.textContent.trim(); }
+        function updateSummaryFromPreview(element) { cvData.summary = element.textContent.trim(); }
+        function updateExperienceFromPreview(element, index, field) { if (cvData.experience[index]) cvData.experience[index][field] = element.textContent.trim(); }
+        function updateExperienceBullet(element, expIndex, bulletIndex) { if (cvData.experience[expIndex] && cvData.experience[expIndex].bullets) cvData.experience[expIndex].bullets[bulletIndex] = element.textContent.trim(); }
+        function addBulletToExperience(expIndex) { if (cvData.experience[expIndex]) { cvData.experience[expIndex].bullets.push('Neue Leistung hier beschreiben'); renderPreview(); } }
+        function updateEducationFromPreview(element, index, field) { if (cvData.education[index]) cvData.education[index][field] = element.textContent.trim(); }
+        function updateSkillFromPreview(element, index) { cvData.skills[index] = element.textContent.trim(); }
+        function updateLanguageFromPreview(element, index, field) { if (cvData.languages[index]) cvData.languages[index][field] = element.textContent.trim(); }
+
+        function uploadPhoto() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'image/*';
+            input.onchange = function(ev) {
+                const file = ev.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(re) {
+                    cvData.personal.photo = re.target.result;
+                    renderPreview();
+                    showToast('Profilbild aktualisiert');
+                };
+                reader.readAsDataURL(file);
+            };
+            input.click();
         }
 
-        function updateSummaryFromPreview(element) {
-            cvData.summary = element.textContent.trim();
-        }
-
-        function updateExperienceFromPreview(element, index, field) {
-            if (!cvData.experience[index]) return;
-            cvData.experience[index][field] = element.textContent.trim();
-        }
-
-        function updateExperienceBullet(element, expIndex, bulletIndex) {
-            if (!cvData.experience[expIndex] || !cvData.experience[expIndex].bullets) return;
-            cvData.experience[expIndex].bullets[bulletIndex] = element.textContent.trim();
-        }
-
-        function addBulletToExperience(expIndex) {
-            if (!cvData.experience[expIndex]) return;
-            cvData.experience[expIndex].bullets.push('Neue Leistung hier beschreiben');
-            renderPreview();
-        }
-
-        function updateEducationFromPreview(element, index, field) {
-            if (!cvData.education[index]) return;
-            cvData.education[index][field] = element.textContent.trim();
-        }
-
-        function updateSkillFromPreview(element, index) {
-            cvData.skills[index] = element.textContent.trim();
-        }
-
-        function updateLanguageFromPreview(element, index, field) {
-            if (!cvData.languages[index]) return;
-            cvData.languages[index][field] = element.textContent.trim();
-        }
-
-        function updatePersonalPhoto() {
-            // Handled in separate function below
-        }
-
-        // Main functions
         function generateSummaryWithAI() {
             const summaries = [
                 "Erfahrener und motivierter Fachkraft mit fundierter Expertise in der Branche. Nachgewiesene Erfolge in der Entwicklung innovativer Lösungen und der Führung von Teams. Zielstrebig, analytisch und kommunikationsstark.",
@@ -966,15 +829,9 @@
         }
 
         function improveBulletsWithAI() {
-            if (cvData.experience.length === 0) {
-                showToast('Bitte zuerst Berufserfahrung hinzufügen');
-                return;
-            }
+            if (cvData.experience.length === 0) { showToast('Bitte zuerst Berufserfahrung hinzufügen'); return; }
             const exp = cvData.experience[0];
-            const improved = exp.bullets.map(b => {
-                if (b.length < 40) return b + " – mit messbarem Erfolg";
-                return b.replace(/Entwicklung|Implementierung|Reduzierung/i, match => match + " von hochperformanten");
-            });
+            const improved = exp.bullets.map(b => b.length < 40 ? b + " – mit messbarem Erfolg" : b.replace(/Entwicklung|Implementierung|Reduzierung/i, match => match + " von hochperformanten"));
             exp.bullets = improved;
             renderPreview();
             showToast('Bullet Points mit KI verbessert!');
@@ -994,75 +851,37 @@
             preview.style.border = 'none';
             preview.style.boxShadow = 'none';
 
-            html2canvas(preview, {
-                scale: 2,
-                useCORS: true,
-                backgroundColor: '#ffffff'
-            }).then(canvas => {
+            html2canvas(preview, { scale: 2, useCORS: true, backgroundColor: '#ffffff' }).then(canvas => {
                 preview.style.border = originalBorder;
                 preview.style.boxShadow = '0 35px 60px -15px rgb(15 23 42 / 0.3)';
 
                 const { jsPDF } = window.jspdf;
-                const pdf = new jsPDF({
-                    orientation: 'portrait',
-                    unit: 'mm',
-                    format: 'a4'
-                });
-
+                const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
                 const imgData = canvas.toDataURL('image/png');
                 const pdfWidth = pdf.internal.pageSize.getWidth();
                 const pdfHeight = pdf.internal.pageSize.getHeight();
-
                 pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
                 pdf.save(`${cvData.personal.name.replace(/\s+/g, '_') || 'Lebenslauf'}.pdf`);
 
-                // Confetti celebration
-                confetti({
-                    particleCount: 180,
-                    spread: 90,
-                    origin: { y: 0.6 }
-                });
-                setTimeout(() => {
-                    confetti({
-                        particleCount: 120,
-                        angle: 60,
-                        spread: 70,
-                        origin: { x: 0.1 }
-                    });
-                }, 250);
-
+                confetti({ particleCount: 180, spread: 90, origin: { y: 0.6 } });
+                setTimeout(() => { confetti({ particleCount: 120, angle: 60, spread: 70, origin: { x: 0.1 } }); }, 250);
                 showToast('PDF erfolgreich exportiert! 🎉');
-            }).catch(err => {
-                console.error(err);
-                showToast('Fehler beim PDF-Export');
-                preview.style.border = originalBorder;
-            });
+            }).catch(() => { showToast('Fehler beim PDF-Export'); preview.style.border = originalBorder; });
         }
 
         function showToast(message) {
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = `toast flex items-center gap-x-3 bg-white border border-slate-200 shadow-xl px-5 py-3 rounded-2xl text-sm font-medium max-w-xs`;
-            toast.innerHTML = `
-                <div class="text-emerald-500"><i class="fas fa-check-circle text-lg"></i></div>
-                <div>${message}</div>
-            `;
+            toast.innerHTML = `<div class="text-emerald-500"><i class="fas fa-check-circle text-lg"></i></div><div>${message}</div>`;
             container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.style.transition = 'all 0.3s';
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(10px)';
-                setTimeout(() => toast.remove(), 300);
-            }, 2800);
+            setTimeout(() => { toast.style.transition = 'all 0.3s'; toast.style.opacity = '0'; toast.style.transform = 'translateY(10px)'; setTimeout(() => toast.remove(), 300); }, 2800);
         }
 
         function saveCurrentCV() {
             const name = prompt('Name für diesen Lebenslauf:', cvData.personal.name || 'Mein Lebenslauf');
             if (!name) return;
-
             let savedCVs = JSON.parse(localStorage.getItem('cvpure_saved_cvs') || '[]');
-            
             const cvToSave = JSON.parse(JSON.stringify(cvData));
             cvToSave.personal.name = name;
 
@@ -1074,7 +893,6 @@
                 currentCVId = newId;
                 savedCVs.push({ id: newId, name: name, data: cvToSave, lastModified: new Date().toISOString() });
             }
-
             localStorage.setItem('cvpure_saved_cvs', JSON.stringify(savedCVs));
             document.getElementById('current-cv-name').textContent = name;
             showToast('Lebenslauf gespeichert!');
@@ -1082,10 +900,7 @@
 
         function showMyCVs() {
             const savedCVs = JSON.parse(localStorage.getItem('cvpure_saved_cvs') || '[]');
-            if (savedCVs.length === 0) {
-                showToast('Noch keine gespeicherten Lebensläufe');
-                return;
-            }
+            if (savedCVs.length === 0) { showToast('Noch keine gespeicherten Lebensläufe'); return; }
 
             const modal = document.createElement('div');
             modal.className = 'fixed inset-0 bg-black/60 flex items-center justify-center z-[200]';
@@ -1120,11 +935,9 @@
             const savedCVs = JSON.parse(localStorage.getItem('cvpure_saved_cvs') || '[]');
             const found = savedCVs.find(c => c.id === id);
             if (!found) return;
-
             cvData = JSON.parse(JSON.stringify(found.data));
             currentCVId = id;
             document.getElementById('current-cv-name').textContent = found.name;
-            
             if (modal) modal.remove();
             showView('editor');
             setTimeout(() => {
@@ -1143,22 +956,11 @@
             savedCVs = savedCVs.filter(c => c.id !== id);
             localStorage.setItem('cvpure_saved_cvs', JSON.stringify(savedCVs));
             modal.remove();
-            showMyCVs(); // refresh
+            showMyCVs();
         }
 
         function createNewCV() {
-            cvData = {
-                personal: { name: "", title: "", email: "", phone: "", location: "", website: "", linkedin: "", photo: "" },
-                summary: "",
-                experience: [],
-                education: [],
-                skills: [],
-                languages: [],
-                projects: [],
-                template: "modern",
-                accentColor: "#6B46C1",
-                font: "Inter, system-ui, sans-serif"
-            };
+            cvData = { personal: { name: "", title: "", email: "", phone: "", location: "", website: "", linkedin: "", photo: "" }, summary: "", experience: [], education: [], skills: [], languages: [], projects: [], template: "modern", accentColor: "#6B46C1", font: "Inter, system-ui, sans-serif" };
             currentCVId = null;
             document.getElementById('current-cv-name').textContent = 'Neuer Lebenslauf';
             showView('editor');
@@ -1167,7 +969,6 @@
         }
 
         function startDemo() {
-            // Load demo data (already in cvData)
             currentCVId = null;
             document.getElementById('current-cv-name').textContent = 'Demo Lebenslauf';
             showView('editor');
@@ -1185,41 +986,55 @@
             createNewCV();
         }
 
-        function setupPhotoUpload() {
-            // Add photo upload to personal section in preview (simplified - add button in editor header or on photo click)
-            const preview = document.getElementById('a4-preview');
-            preview.addEventListener('click', function(e) {
-                if (e.target.closest('img') || (e.target.tagName === 'DIV' && e.target.innerHTML.includes('fa-user'))) {
-                    const input = document.createElement('input');
-                    input.type = 'file';
-                    input.accept = 'image/*';
-                    input.onchange = function(ev) {
-                        const file = ev.target.files[0];
-                        if (!file) return;
-                        const reader = new FileReader();
-                        reader.onload = function(re) {
-                            cvData.personal.photo = re.target.result;
-                            renderPreview();
-                            showToast('Profilbild aktualisiert');
-                        };
-                        reader.readAsDataURL(file);
-                    };
-                    input.click();
-                }
-            });
+        // SLIDER FUNCTIONS
+        function openLeftSlider() {
+            const slider = document.getElementById('left-slider');
+            const overlay = document.getElementById('slider-overlay');
+            slider.classList.add('open');
+            overlay.classList.remove('hidden');
+            renderSectionsList();
+        }
+
+        function closeLeftSlider() {
+            const slider = document.getElementById('left-slider');
+            const overlay = document.getElementById('slider-overlay');
+            slider.classList.remove('open');
+            if (!document.getElementById('right-slider').classList.contains('open')) {
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function openRightSlider() {
+            const slider = document.getElementById('right-slider');
+            const overlay = document.getElementById('slider-overlay');
+            slider.classList.add('open');
+            overlay.classList.remove('hidden');
+        }
+
+        function closeRightSlider() {
+            const slider = document.getElementById('right-slider');
+            const overlay = document.getElementById('slider-overlay');
+            slider.classList.remove('open');
+            if (!document.getElementById('left-slider').classList.contains('open')) {
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function closeAllSliders() {
+            document.getElementById('left-slider').classList.remove('open');
+            document.getElementById('right-slider').classList.remove('open');
+            document.getElementById('slider-overlay').classList.add('hidden');
         }
 
         function setupColorPicker() {
             const picker = document.getElementById('accent-color-picker');
             const hex = document.getElementById('accent-color-hex');
-            
             picker.addEventListener('input', function() {
                 hex.textContent = this.value;
             });
         }
 
         function initEditorListeners() {
-            // Auto-save on changes (debounced)
             let saveTimeout;
             const autoSave = () => {
                 clearTimeout(saveTimeout);
@@ -1236,65 +1051,41 @@
                 }, 800);
             };
 
-            // Observe changes in preview
             const preview = document.getElementById('a4-preview');
             if (preview) {
                 preview.addEventListener('input', autoSave);
                 preview.addEventListener('blur', autoSave, true);
             }
 
-            // Keyboard shortcut for PDF
             document.addEventListener('keydown', function(e) {
-                if (e.metaKey && e.key === 'p') {
-                    e.preventDefault();
-                    exportPDF();
-                }
+                if (e.metaKey && e.key === 'p') { e.preventDefault(); exportPDF(); }
+                if (e.key === 'Escape') { closeAllSliders(); }
             });
 
-            // Initial color
+            // Initial values
             document.getElementById('accent-color-picker').value = cvData.accentColor;
             document.getElementById('accent-color-hex').textContent = cvData.accentColor;
             document.getElementById('font-select').value = cvData.font;
             document.getElementById('template-select').value = cvData.template;
         }
 
-        function initTemplatesFilters() {
-            // Set initial active filter
-            const allBtn = document.querySelector('#template-filters button');
-            if (allBtn) allBtn.classList.add('bg-violet-600', 'text-white');
-        }
-
         function initEverything() {
             initTailwind();
             
-            // Load last used or demo
             const saved = localStorage.getItem('cvpure_last_cv');
-            if (saved) {
-                try {
-                    cvData = JSON.parse(saved);
-                } catch(e) {}
-            }
+            if (saved) { try { cvData = JSON.parse(saved); } catch(e) {} }
 
-            // Show landing by default
             document.getElementById('landing-view').classList.remove('hidden');
-            
-            // Render sections list for editor
             renderSectionsList();
-            
-            // Setup listeners
-            setupPhotoUpload();
             setupColorPicker();
             initEditorListeners();
-            initTemplatesFilters();
 
-            // Auto save current state
             setInterval(() => {
                 if (currentView === 'editor') {
                     localStorage.setItem('cvpure_last_cv', JSON.stringify(cvData));
                 }
             }, 5000);
 
-            // Welcome toast on first visit
             if (!localStorage.getItem('cvpure_welcomed')) {
                 setTimeout(() => {
                     showToast('Willkommen bei CVPure! Klicke auf "Demo starten"');
@@ -1302,16 +1093,11 @@
                 }, 2200);
             }
 
-            console.log('%c[CVPure] Pure Vanilla JS App initialized successfully ✓', 'color:#6B46C1');
+            console.log('%c[CVPure] Optimierte Version mit Slide-in Sidebars (Mobile-First) geladen ✓', 'color:#6B46C1');
         }
 
-        // Boot the app
-        window.onload = function() {
-            initEverything();
-        };
-
-        // Expose some functions for debugging
-        window.CVPure = { cvData, renderPreview, exportPDF, showView };
+        window.onload = function() { initEverything(); };
+        window.CVPure = { cvData, renderPreview, exportPDF, showView, openLeftSlider, openRightSlider };
     </script>
 </body>
 </html>
