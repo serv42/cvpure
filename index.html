@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CVPure.app - Professionelle Lebensläufe in unter 10 Minuten</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://serv42.github.io/superclean/js/tailwind.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -22,12 +22,9 @@
             margin: 0 auto;
             position: relative;
             overflow: hidden;
-            transition: box-shadow 0.3s;
         }
         @media (min-width: 640px) {
-            .a4-preview {
-                max-width: 420px;
-            }
+            .a4-preview { max-width: 420px; }
         }
         @media (min-width: 900px) {
             .a4-preview {
@@ -43,10 +40,9 @@
     </style>
 </head>
 <body class="bg-slate-50 font-sans">
-    <!-- Navbar - Fully Mobile Ready -->
+    <!-- Navbar -->
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <!-- Logo -->
             <div class="flex items-center gap-x-3">
                 <div class="w-9 h-9 bg-gradient-to-br from-violet-600 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0">
                     <span class="text-white text-xl font-bold">C</span>
@@ -57,29 +53,24 @@
                 </div>
             </div>
             
-            <!-- Desktop Navigation -->
             <div class="hidden md:flex items-center gap-x-8 text-sm">
                 <a href="#" onclick="showView('landing')" class="text-slate-600 hover:text-slate-900 transition-colors">Start</a>
                 <a href="#" onclick="showView('templates')" class="text-slate-600 hover:text-slate-900 transition-colors">Vorlagen</a>
                 <a href="#" onclick="showView('editor')" class="text-slate-600 hover:text-slate-900 transition-colors">Editor</a>
             </div>
             
-            <!-- Right Side Actions -->
             <div class="flex items-center gap-x-2">
-                <!-- Mobile Menu Button -->
                 <div class="md:hidden">
                     <button onclick="toggleMobileMenu()" class="p-2 text-slate-600 hover:text-slate-900">
                         <i class="fas fa-bars text-lg"></i>
                     </button>
                 </div>
 
-                <!-- Meine CVs -->
                 <button onclick="showMyCVs()" class="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 rounded-xl flex items-center gap-x-2">
                     <i class="fas fa-folder-open"></i>
                     <span class="hidden sm:inline">Meine CVs</span>
                 </button>
 
-                <!-- PDF Button -->
                 <button onclick="exportPDF()" class="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold rounded-2xl flex items-center gap-x-2 shadow-lg shadow-violet-200 active:scale-[0.985]">
                     <i class="fas fa-file-pdf"></i>
                     <span class="hidden sm:inline">PDF</span>
@@ -87,7 +78,6 @@
             </div>
         </div>
 
-        <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden border-t bg-white px-4 py-3">
             <div class="flex flex-col gap-y-1 text-sm">
                 <a href="#" onclick="showView('landing'); toggleMobileMenu();" class="px-4 py-3 text-slate-700 hover:bg-slate-50 rounded-xl">Start</a>
@@ -99,7 +89,6 @@
 
     <!-- LANDING VIEW -->
     <div id="landing-view">
-        <!-- Hero -->
         <div class="max-w-5xl mx-auto px-6 pt-20 pb-16 text-center">
             <div class="inline-flex items-center gap-x-2 bg-violet-100 text-violet-700 px-4 py-1 rounded-full text-sm font-medium mb-6">
                 <i class="fas fa-sparkles"></i>
@@ -130,7 +119,6 @@
             </div>
         </div>
 
-        <!-- Features -->
         <div class="max-w-6xl mx-auto px-6 pb-20">
             <div class="text-center mb-12">
                 <span class="text-violet-600 font-semibold">WARUM CVPURE?</span>
@@ -156,7 +144,6 @@
             </div>
         </div>
 
-        <!-- Template Showcase -->
         <div class="bg-white py-16">
             <div class="max-w-6xl mx-auto px-6">
                 <div class="flex justify-between items-end mb-10">
@@ -220,7 +207,6 @@
             </div>
         </div>
 
-        <!-- How it works -->
         <div class="max-w-4xl mx-auto px-6 py-20 text-center">
             <span class="text-violet-600 font-semibold">SO EINFACH GEHT'S</span>
             <h2 class="text-4xl font-semibold tracking-tight mt-4 mb-12">In 3 Schritten zu deinem Traum-Lebenslauf</h2>
@@ -244,7 +230,6 @@
             </div>
         </div>
 
-        <!-- Testimonials -->
         <div class="bg-white py-16">
             <div class="max-w-4xl mx-auto px-6">
                 <div class="text-center mb-12">
@@ -312,12 +297,12 @@
         </div>
     </div>
 
-    <!-- EDITOR VIEW - Mobile Optimized -->
+    <!-- EDITOR VIEW - Fixed Centering + Mobile Scroll -->
     <div id="editor-view" class="hidden">
-        <div class="max-w-[100%] mx-auto px-3 sm:px-4 py-4">
-            <!-- Editor Top Bar - Mobile Friendly -->
-            <div class="flex items-center justify-between mb-4 px-1 flex-wrap gap-y-3">
-                <div class="flex items-center gap-x-3">
+        <div class="max-w-7xl mx-auto px-4 py-6">
+            <!-- Top Bar -->
+            <div class="flex items-center justify-between mb-6 px-2 flex-wrap gap-y-3">
+                <div class="flex items-center gap-x-4">
                     <button onclick="showView('templates')" class="flex items-center gap-x-2 text-sm text-slate-600 hover:text-slate-900">
                         <i class="fas fa-arrow-left"></i> <span class="hidden sm:inline">Zurück</span>
                     </button>
@@ -332,11 +317,9 @@
                     <button onclick="openLeftSlider()" class="px-3 py-2 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
                         <i class="fas fa-bars"></i>
                     </button>
-                    
                     <button onclick="openRightSlider()" class="px-3 py-2 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
                         <i class="fas fa-palette"></i>
                     </button>
-
                     <button onclick="saveCurrentCV()" class="px-4 py-2 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
                         <i class="fas fa-save"></i>
                     </button>
@@ -347,14 +330,11 @@
                 </div>
             </div>
 
-            <!-- CENTER: A4 PREVIEW - MAX WIDTH ON MOBILE -->
-            <div class="flex justify-center px-1">
-                <div id="preview-container" class="relative w-full max-w-[420px] mx-auto">
-                    <div id="a4-preview" class="a4-preview border border-slate-300 rounded-3xl overflow-hidden template-modern" 
+            <!-- PREVIEW - Properly Centered on Desktop + Scrollable on Mobile -->
+            <div class="flex justify-center">
+                <div class="w-full max-w-[820px] mx-auto">
+                    <div id="a4-preview" class="a4-preview border border-slate-300 rounded-3xl overflow-hidden template-modern mx-auto" 
                          style="box-shadow: 0 35px 60px -15px rgb(15 23 42 / 0.3);">
-                    </div>
-                    <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full text-xs text-slate-500 border shadow-sm flex items-center gap-x-1">
-                        <i class="fas fa-info-circle"></i> <span>A4 Vorschau</span>
                     </div>
                 </div>
             </div>
@@ -462,10 +442,8 @@
         </div>
     </div>
 
-    <!-- Overlay -->
     <div id="slider-overlay" onclick="closeAllSliders()" class="hidden fixed inset-0 bg-black/40 z-[90]"></div>
 
-    <!-- Toast -->
     <div id="toast-container" class="fixed bottom-6 right-6 z-[200] space-y-2"></div>
 
     <script>
@@ -993,7 +971,6 @@
             createNewCV();
         }
 
-        // SLIDER FUNCTIONS
         function openLeftSlider() {
             const slider = document.getElementById('left-slider');
             const overlay = document.getElementById('slider-overlay');
@@ -1109,7 +1086,7 @@
                 }, 2200);
             }
 
-            console.log('%c[CVPure] Mobile-Ready Header + Maximized Editor Width ✓', 'color:#6B46C1');
+            console.log('%c[CVPure] Desktop Centering + Mobile Scroll Fixed + Tailwind Mirror ✓', 'color:#6B46C1');
         }
 
         window.onload = function() { initEverything(); };
