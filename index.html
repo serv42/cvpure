@@ -15,7 +15,7 @@
         :root { --accent-color: #6B46C1; }
         .a4-preview {
             width: 100%;
-            max-width: 340px;
+            max-width: 300px;
             aspect-ratio: 210 / 297;
             box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
             background: white;
@@ -24,7 +24,7 @@
             overflow: hidden;
         }
         @media (min-width: 640px) {
-            .a4-preview { max-width: 400px; }
+            .a4-preview { max-width: 380px; }
         }
         @media (min-width: 900px) {
             .a4-preview {
@@ -298,22 +298,21 @@
     </div>
 
     <!-- EDITOR VIEW - Fully Scrollable on Mobile -->
-    <div id="editor-view" class="hidden h-[calc(100vh-64px)] overflow-y-auto">
-        <div class="max-w-7xl mx-auto px-4 py-6">
-            <!-- Top Bar -->
-            <div class="flex items-center justify-between mb-6 px-2 flex-wrap gap-y-3 sticky top-0 bg-slate-50 z-10 py-2">
-                <div class="flex items-center gap-x-4">
+    <div id="editor-view" class="hidden">
+        <div class="max-w-7xl mx-auto px-4 py-4">
+            <!-- Top Bar (sticky) -->
+            <div class="flex items-center justify-between mb-4 px-2 flex-wrap gap-y-3 sticky top-0 bg-slate-50 z-20 py-3 -mx-1">
+                <div class="flex items-center gap-x-3">
                     <button onclick="showView('templates')" class="flex items-center gap-x-2 text-sm text-slate-600 hover:text-slate-900">
-                        <i class="fas fa-arrow-left"></i> <span class="hidden sm:inline">Zurück</span>
+                        <i class="fas fa-arrow-left"></i>
                     </button>
-                    <div class="h-6 w-px bg-slate-200 hidden sm:block"></div>
                     <div>
                         <span class="font-semibold text-lg" id="current-cv-name">Neuer Lebenslauf</span>
                         <span class="text-xs text-emerald-600 ml-2 px-2 py-0.5 bg-emerald-100 rounded-full">Auto-Save</span>
                     </div>
                 </div>
                 
-                <div class="flex items-center gap-x-2">
+                <div class="flex items-center gap-x-1.5">
                     <button onclick="openLeftSlider()" class="px-3 py-2 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
                         <i class="fas fa-bars"></i>
                     </button>
@@ -330,9 +329,9 @@
                 </div>
             </div>
 
-            <!-- PREVIEW - Mobile Optimized -->
-            <div class="flex justify-center pb-12">
-                <div class="w-full max-w-[380px] mx-auto">
+            <!-- PREVIEW - Smaller on Mobile for scrolling -->
+            <div class="flex justify-center pb-20">
+                <div class="w-full max-w-[300px] mx-auto">
                     <div id="a4-preview" class="a4-preview border border-slate-300 rounded-3xl overflow-hidden template-modern mx-auto" 
                          style="box-shadow: 0 35px 60px -15px rgb(15 23 42 / 0.3);">
                     </div>
@@ -1086,7 +1085,7 @@
                 }, 2200);
             }
 
-            console.log('%c[CVPure] Mobile Scroll Fixed (Full height scrollable editor) ✓', 'color:#6B46C1');
+            console.log('%c[CVPure] Mobile Scroll Fixed - Smaller preview + full page scroll ✓', 'color:#6B46C1');
         }
 
         window.onload = function() { initEverything(); };
