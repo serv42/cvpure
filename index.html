@@ -14,8 +14,9 @@
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@700&display=swap');
         :root { --accent-color: #6B46C1; }
         .a4-preview {
-            width: 794px;
-            min-height: 1123px;
+            width: 100%;
+            max-width: 380px;
+            aspect-ratio: 210 / 297;
             box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
             background: white;
             margin: 0 auto;
@@ -23,8 +24,18 @@
             overflow: hidden;
             transition: box-shadow 0.3s;
         }
-        @media (max-width: 900px) {
-            .a4-preview { width: 100%; max-width: 380px; min-height: 540px; transform: scale(0.95); margin: 0 auto; }
+        @media (min-width: 640px) {
+            .a4-preview {
+                max-width: 420px;
+            }
+        }
+        @media (min-width: 900px) {
+            .a4-preview {
+                width: 794px;
+                max-width: 794px;
+                aspect-ratio: auto;
+                min-height: 1123px;
+            }
         }
         .preview-editable { outline: none; }
         .preview-editable:focus { background-color: #fefce8; box-shadow: 0 0 0 2px #fde047; }
@@ -32,34 +43,56 @@
     </style>
 </head>
 <body class="bg-slate-50 font-sans">
-    <!-- Navbar -->
+    <!-- Navbar - Fully Mobile Ready -->
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <!-- Logo -->
             <div class="flex items-center gap-x-3">
-                <div class="w-10 h-10 bg-gradient-to-br from-violet-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                    <span class="text-white text-2xl font-bold">C</span>
+                <div class="w-9 h-9 bg-gradient-to-br from-violet-600 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span class="text-white text-xl font-bold">C</span>
                 </div>
-                <div>
+                <div class="flex items-baseline">
                     <span class="font-semibold text-2xl tracking-tight">CVPure</span>
-                    <span class="text-xs text-slate-500 block -mt-1">.app</span>
+                    <span class="text-xs text-slate-500 ml-0.5 hidden sm:inline">.app</span>
                 </div>
             </div>
             
-            <div class="flex items-center gap-x-8 text-sm">
+            <!-- Desktop Navigation -->
+            <div class="hidden md:flex items-center gap-x-8 text-sm">
                 <a href="#" onclick="showView('landing')" class="text-slate-600 hover:text-slate-900 transition-colors">Start</a>
                 <a href="#" onclick="showView('templates')" class="text-slate-600 hover:text-slate-900 transition-colors">Vorlagen</a>
                 <a href="#" onclick="showView('editor')" class="text-slate-600 hover:text-slate-900 transition-colors">Editor</a>
-                
-                <div class="flex items-center gap-x-2">
-                    <button onclick="showMyCVs()" class="px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 rounded-lg flex items-center gap-x-2">
-                        <i class="fas fa-folder-open"></i>
-                        <span>Meine CVs</span>
-                    </button>
-                    <button onclick="exportPDF()" class="px-5 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold rounded-xl flex items-center gap-x-2 hover:brightness-110 transition-all">
-                        <i class="fas fa-download"></i>
-                        <span>PDF Export</span>
+            </div>
+            
+            <!-- Right Side Actions -->
+            <div class="flex items-center gap-x-2">
+                <!-- Mobile Menu Button -->
+                <div class="md:hidden">
+                    <button onclick="toggleMobileMenu()" class="p-2 text-slate-600 hover:text-slate-900">
+                        <i class="fas fa-bars text-lg"></i>
                     </button>
                 </div>
+
+                <!-- Meine CVs -->
+                <button onclick="showMyCVs()" class="px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-100 rounded-xl flex items-center gap-x-2">
+                    <i class="fas fa-folder-open"></i>
+                    <span class="hidden sm:inline">Meine CVs</span>
+                </button>
+
+                <!-- PDF Button -->
+                <button onclick="exportPDF()" class="px-4 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold rounded-2xl flex items-center gap-x-2 shadow-lg shadow-violet-200 active:scale-[0.985]">
+                    <i class="fas fa-file-pdf"></i>
+                    <span class="hidden sm:inline">PDF</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-t bg-white px-4 py-3">
+            <div class="flex flex-col gap-y-1 text-sm">
+                <a href="#" onclick="showView('landing'); toggleMobileMenu();" class="px-4 py-3 text-slate-700 hover:bg-slate-50 rounded-xl">Start</a>
+                <a href="#" onclick="showView('templates'); toggleMobileMenu();" class="px-4 py-3 text-slate-700 hover:bg-slate-50 rounded-xl">Vorlagen</a>
+                <a href="#" onclick="showView('editor'); toggleMobileMenu();" class="px-4 py-3 text-slate-700 hover:bg-slate-50 rounded-xl">Editor</a>
             </div>
         </div>
     </nav>
@@ -73,16 +106,16 @@
                 <span>Jetzt mit KI-Unterstützung</span>
             </div>
             
-            <h1 class="text-7xl font-semibold tracking-tighter text-slate-900 mb-6">Professionelle Lebensläufe<br>in unter <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600">10 Minuten</span></h1>
+            <h1 class="text-6xl sm:text-7xl font-semibold tracking-tighter text-slate-900 mb-6">Professionelle Lebensläufe<br>in unter <span class="text-transparent bg-clip-text bg-gradient-to-r from-violet-600 to-indigo-600">10 Minuten</span></h1>
             
-            <p class="max-w-2xl mx-auto text-2xl text-slate-600 mb-10">Wunderschön. ATS-optimiert. 100% kostenlos & privat.</p>
+            <p class="max-w-2xl mx-auto text-xl sm:text-2xl text-slate-600 mb-10">Wunderschön. ATS-optimiert. 100% kostenlos & privat.</p>
             
-            <div class="flex items-center justify-center gap-x-4">
-                <button onclick="startDemo()" class="px-10 py-4 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-lg font-semibold rounded-2xl flex items-center gap-x-3 shadow-xl shadow-violet-200 hover:scale-[1.02] transition-transform">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                <button onclick="startDemo()" class="w-full sm:w-auto px-10 py-4 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-lg font-semibold rounded-2xl flex items-center justify-center gap-x-3 shadow-xl shadow-violet-200 active:scale-[0.985]">
                     <span>Demo starten</span>
                     <i class="fas fa-arrow-right"></i>
                 </button>
-                <button onclick="showView('templates')" class="px-8 py-4 border border-slate-300 text-slate-700 font-semibold rounded-2xl flex items-center gap-x-2 hover:bg-slate-50">
+                <button onclick="showView('templates')" class="w-full sm:w-auto px-8 py-4 border border-slate-300 text-slate-700 font-semibold rounded-2xl flex items-center justify-center gap-x-2 hover:bg-slate-50">
                     <span>Vorlagen ansehen</span>
                 </button>
             </div>
@@ -279,50 +312,49 @@
         </div>
     </div>
 
-    <!-- EDITOR VIEW -->
+    <!-- EDITOR VIEW - Mobile Optimized -->
     <div id="editor-view" class="hidden">
-        <div class="max-w-[1200px] mx-auto px-4 py-6">
-            <!-- Editor Top Bar -->
-            <div class="flex items-center justify-between mb-6 px-2 flex-wrap gap-y-3">
-                <div class="flex items-center gap-x-4">
+        <div class="max-w-[100%] mx-auto px-3 sm:px-4 py-4">
+            <!-- Editor Top Bar - Mobile Friendly -->
+            <div class="flex items-center justify-between mb-4 px-1 flex-wrap gap-y-3">
+                <div class="flex items-center gap-x-3">
                     <button onclick="showView('templates')" class="flex items-center gap-x-2 text-sm text-slate-600 hover:text-slate-900">
-                        <i class="fas fa-arrow-left"></i> <span>Zurück</span>
+                        <i class="fas fa-arrow-left"></i> <span class="hidden sm:inline">Zurück</span>
                     </button>
-                    <div class="h-6 w-px bg-slate-200"></div>
-                    <div class="flex items-center gap-x-3">
+                    <div class="h-6 w-px bg-slate-200 hidden sm:block"></div>
+                    <div>
                         <span class="font-semibold text-lg" id="current-cv-name">Neuer Lebenslauf</span>
-                        <span class="text-xs text-emerald-600 px-2.5 py-0.5 bg-emerald-100 rounded-full">Auto-Save</span>
+                        <span class="text-xs text-emerald-600 ml-2 px-2 py-0.5 bg-emerald-100 rounded-full">Auto-Save</span>
                     </div>
                 </div>
                 
                 <div class="flex items-center gap-x-2">
-                    <button onclick="openLeftSlider()" class="px-4 py-2.5 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
+                    <button onclick="openLeftSlider()" class="px-3 py-2 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
                         <i class="fas fa-bars"></i>
-                        <span class="hidden sm:inline">Abschnitte</span>
                     </button>
                     
-                    <button onclick="openRightSlider()" class="px-4 py-2.5 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
+                    <button onclick="openRightSlider()" class="px-3 py-2 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
                         <i class="fas fa-palette"></i>
-                        <span class="hidden sm:inline">Design & KI</span>
                     </button>
 
-                    <button onclick="saveCurrentCV()" class="px-5 py-2.5 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
-                        <i class="fas fa-save"></i> <span class="hidden sm:inline">Speichern</span>
+                    <button onclick="saveCurrentCV()" class="px-4 py-2 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
+                        <i class="fas fa-save"></i>
                     </button>
-                    <button onclick="exportPDF()" class="px-6 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold rounded-2xl flex items-center gap-x-2 shadow-lg shadow-violet-200">
-                        <i class="fas fa-file-pdf"></i> <span>PDF</span>
+                    <button onclick="exportPDF()" class="px-5 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white text-sm font-semibold rounded-2xl flex items-center gap-x-2 shadow-lg shadow-violet-200">
+                        <i class="fas fa-file-pdf"></i>
+                        <span>PDF</span>
                     </button>
                 </div>
             </div>
 
-            <!-- CENTER: A4 PREVIEW -->
-            <div class="flex justify-center">
-                <div id="preview-container" class="relative">
+            <!-- CENTER: A4 PREVIEW - MAX WIDTH ON MOBILE -->
+            <div class="flex justify-center px-1">
+                <div id="preview-container" class="relative w-full max-w-[420px] mx-auto">
                     <div id="a4-preview" class="a4-preview border border-slate-300 rounded-3xl overflow-hidden template-modern" 
                          style="box-shadow: 0 35px 60px -15px rgb(15 23 42 / 0.3);">
                     </div>
                     <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full text-xs text-slate-500 border shadow-sm flex items-center gap-x-1">
-                        <i class="fas fa-info-circle"></i> <span>A4 Vorschau • 210 × 297 mm</span>
+                        <i class="fas fa-info-circle"></i> <span>A4 Vorschau</span>
                     </div>
                 </div>
             </div>
@@ -330,8 +362,7 @@
     </div>
 
     <!-- LEFT SLIDER -->
-    <div id="left-slider" 
-         class="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[100] border-r border-slate-200 flex flex-col -translate-x-full transition-transform duration-300">
+    <div id="left-slider" class="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[100] border-r border-slate-200 flex flex-col -translate-x-full transition-transform duration-300">
         <div class="p-5 border-b flex items-center justify-between">
             <div class="font-semibold text-lg flex items-center gap-x-2">
                 <i class="fas fa-bars text-violet-600"></i> 
@@ -362,8 +393,7 @@
     </div>
 
     <!-- RIGHT SLIDER -->
-    <div id="right-slider" 
-         class="fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-[100] border-l border-slate-200 flex flex-col translate-x-full transition-transform duration-300">
+    <div id="right-slider" class="fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-[100] border-l border-slate-200 flex flex-col translate-x-full transition-transform duration-300">
         <div class="p-5 border-b flex items-center justify-between">
             <div class="font-semibold text-lg flex items-center gap-x-2">
                 <i class="fas fa-palette text-violet-600"></i> 
@@ -467,6 +497,11 @@
             { id: 'tech', name: 'Tech', category: 'tech', desc: 'Futuristisch & clean', color: '#1e40af' },
             { id: 'executive', name: 'Executive', category: 'executive', desc: 'Für Führungskräfte', color: '#4338ca' }
         ];
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
 
         function showView(view) {
             document.getElementById('landing-view').classList.add('hidden');
@@ -661,19 +696,19 @@
             let html = '';
 
             html += `
-                <div class="px-10 pt-10 pb-8 flex items-start gap-x-6 border-b border-slate-200" style="background: linear-gradient(to right, ${cvData.accentColor}08, transparent);">
+                <div class="px-8 pt-8 pb-6 flex items-start gap-x-5 border-b border-slate-200" style="background: linear-gradient(to right, ${cvData.accentColor}08, transparent);">
                     ${cvData.personal.photo ? 
-                        `<img src="${cvData.personal.photo}" class="w-24 h-24 rounded-2xl object-cover border-4 border-white shadow-md flex-shrink-0" style="box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);">` : 
-                        `<div onclick="uploadPhoto()" class="w-24 h-24 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center flex-shrink-0 cursor-pointer hover:brightness-95">
-                            <i class="fas fa-user text-4xl text-slate-400"></i>
+                        `<img src="${cvData.personal.photo}" class="w-20 h-20 rounded-2xl object-cover border-4 border-white shadow-md flex-shrink-0" style="box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);">` : 
+                        `<div onclick="uploadPhoto()" class="w-20 h-20 rounded-2xl bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center flex-shrink-0 cursor-pointer hover:brightness-95">
+                            <i class="fas fa-user text-3xl text-slate-400"></i>
                         </div>`
                     }
-                    <div class="flex-1 pt-1">
-                        <div contenteditable="true" onblur="updatePersonalFromPreview(this, 'name')" class="preview-editable text-4xl font-semibold tracking-tighter text-slate-900">${cvData.personal.name || 'Dein Name'}</div>
-                        <div contenteditable="true" onblur="updatePersonalFromPreview(this, 'title')" class="preview-editable text-xl text-slate-600 mt-1">${cvData.personal.title || 'Dein Titel'}</div>
+                    <div class="flex-1 pt-1 min-w-0">
+                        <div contenteditable="true" onblur="updatePersonalFromPreview(this, 'name')" class="preview-editable text-3xl font-semibold tracking-tighter text-slate-900 break-words">${cvData.personal.name || 'Dein Name'}</div>
+                        <div contenteditable="true" onblur="updatePersonalFromPreview(this, 'title')" class="preview-editable text-lg text-slate-600 mt-0.5 break-words">${cvData.personal.title || 'Dein Titel'}</div>
                         
-                        <div class="flex flex-wrap gap-x-4 gap-y-1 mt-4 text-sm">
-                            ${cvData.personal.email ? `<div class="flex items-center gap-x-1.5 text-slate-600"><i class="fas fa-envelope w-3.5"></i> <span contenteditable="true" onblur="updatePersonalFromPreview(this, 'email')">${cvData.personal.email}</span></div>` : ''}
+                        <div class="flex flex-col gap-y-1 mt-3 text-sm">
+                            ${cvData.personal.email ? `<div class="flex items-center gap-x-1.5 text-slate-600"><i class="fas fa-envelope w-3.5"></i> <span contenteditable="true" onblur="updatePersonalFromPreview(this, 'email')" class="break-all">${cvData.personal.email}</span></div>` : ''}
                             ${cvData.personal.phone ? `<div class="flex items-center gap-x-1.5 text-slate-600"><i class="fas fa-phone w-3.5"></i> <span contenteditable="true" onblur="updatePersonalFromPreview(this, 'phone')">${cvData.personal.phone}</span></div>` : ''}
                             ${cvData.personal.location ? `<div class="flex items-center gap-x-1.5 text-slate-600"><i class="fas fa-map-marker-alt w-3.5"></i> <span contenteditable="true" onblur="updatePersonalFromPreview(this, 'location')">${cvData.personal.location}</span></div>` : ''}
                         </div>
@@ -683,32 +718,32 @@
 
             if (cvData.summary) {
                 html += `
-                    <div class="px-10 pt-8" data-section="summary">
+                    <div class="px-8 pt-6" data-section="summary">
                         <div class="section-header text-sm tracking-[1px] flex items-center justify-between">
                             <span>PROFESSIONELLE ZUSAMMENFASSUNG</span>
                             <button onclick="generateSummaryWithAI()" class="text-xs px-3 py-1 bg-violet-100 text-violet-700 rounded-full flex items-center gap-x-1 hover:bg-violet-200"><i class="fas fa-magic text-xs"></i> <span>KI</span></button>
                         </div>
-                        <div contenteditable="true" onblur="updateSummaryFromPreview(this)" class="preview-editable text-[13.5px] leading-relaxed text-slate-700 mt-3">${cvData.summary}</div>
+                        <div contenteditable="true" onblur="updateSummaryFromPreview(this)" class="preview-editable text-[13px] leading-relaxed text-slate-700 mt-3">${cvData.summary}</div>
                     </div>
                 `;
             }
 
             if (cvData.experience && cvData.experience.length > 0) {
-                html += `<div class="px-10 pt-8" data-section="experience"><div class="section-header text-sm tracking-[1px]">BERUFSERFAHRUNG</div>`;
+                html += `<div class="px-8 pt-6" data-section="experience"><div class="section-header text-sm tracking-[1px]">BERUFSERFAHRUNG</div>`;
                 cvData.experience.forEach((exp, idx) => {
                     html += `
-                        <div class="mb-6 last:mb-0 group">
+                        <div class="mb-5 last:mb-0 group">
                             <div class="flex justify-between items-start">
-                                <div>
-                                    <div contenteditable="true" onblur="updateExperienceFromPreview(this, ${idx}, 'position')" class="preview-editable font-semibold text-lg">${exp.position}</div>
-                                    <div contenteditable="true" onblur="updateExperienceFromPreview(this, ${idx}, 'company')" class="preview-editable text-violet-700 font-medium">${exp.company}</div>
+                                <div class="min-w-0">
+                                    <div contenteditable="true" onblur="updateExperienceFromPreview(this, ${idx}, 'position')" class="preview-editable font-semibold text-base">${exp.position}</div>
+                                    <div contenteditable="true" onblur="updateExperienceFromPreview(this, ${idx}, 'company')" class="preview-editable text-violet-700 font-medium text-sm">${exp.company}</div>
                                 </div>
-                                <div class="text-right text-xs text-slate-500 font-mono pt-1">
+                                <div class="text-right text-xs text-slate-500 font-mono pt-1 flex-shrink-0">
                                     <span contenteditable="true" onblur="updateExperienceFromPreview(this, ${idx}, 'start')">${exp.start}</span> — <span contenteditable="true" onblur="updateExperienceFromPreview(this, ${idx}, 'end')">${exp.end}</span>
                                 </div>
                             </div>
-                            <div class="mt-2 pl-px">
-                                ${exp.bullets.map((b, bIdx) => `<div contenteditable="true" onblur="updateExperienceBullet(this, ${idx}, ${bIdx})" class="preview-editable text-[13.2px] leading-snug text-slate-700 mb-1 flex gap-x-2"><span class="text-violet-500 mt-1.5">•</span> <span class="flex-1">${b}</span></div>`).join('')}
+                            <div class="mt-1.5 pl-px">
+                                ${exp.bullets.map((b, bIdx) => `<div contenteditable="true" onblur="updateExperienceBullet(this, ${idx}, ${bIdx})" class="preview-editable text-[12.5px] leading-snug text-slate-700 mb-0.5 flex gap-x-2"><span class="text-violet-500 mt-1">•</span> <span class="flex-1">${b}</span></div>`).join('')}
                             </div>
                             <button onclick="addBulletToExperience(${idx})" class="text-xs text-violet-600 hover:text-violet-700 mt-1 opacity-0 group-hover:opacity-100 flex items-center gap-x-1"><i class="fas fa-plus text-xs"></i> Bullet hinzufügen</button>
                         </div>
@@ -718,16 +753,16 @@
             }
 
             if (cvData.education && cvData.education.length > 0) {
-                html += `<div class="px-10 pt-8" data-section="education"><div class="section-header text-sm tracking-[1px]">AUSBILDUNG</div>`;
+                html += `<div class="px-8 pt-6" data-section="education"><div class="section-header text-sm tracking-[1px]">AUSBILDUNG</div>`;
                 cvData.education.forEach((edu, idx) => {
                     html += `
-                        <div class="mb-5">
+                        <div class="mb-4">
                             <div class="flex justify-between">
-                                <div class="font-semibold">${edu.degree}</div>
+                                <div class="font-semibold text-sm">${edu.degree}</div>
                                 <div class="text-xs text-slate-500 font-mono">${edu.start} — ${edu.end}</div>
                             </div>
-                            <div contenteditable="true" onblur="updateEducationFromPreview(this, ${idx}, 'institution')" class="preview-editable text-violet-700">${edu.institution}</div>
-                            <div contenteditable="true" onblur="updateEducationFromPreview(this, ${idx}, 'description')" class="preview-editable text-sm text-slate-600 mt-1">${edu.description || ''}</div>
+                            <div contenteditable="true" onblur="updateEducationFromPreview(this, ${idx}, 'institution')" class="preview-editable text-violet-700 text-sm">${edu.institution}</div>
+                            <div contenteditable="true" onblur="updateEducationFromPreview(this, ${idx}, 'description')" class="preview-editable text-xs text-slate-600 mt-0.5">${edu.description || ''}</div>
                         </div>
                     `;
                 });
@@ -736,13 +771,13 @@
 
             if (cvData.skills && cvData.skills.length > 0) {
                 html += `
-                    <div class="px-10 pt-8" data-section="skills">
+                    <div class="px-8 pt-6" data-section="skills">
                         <div class="section-header text-sm tracking-[1px] flex items-center justify-between">
                             <span>FÄHIGKEITEN</span>
                             <button onclick="suggestSkillsWithAI()" class="text-xs px-3 py-1 bg-violet-100 text-violet-700 rounded-full flex items-center gap-x-1 hover:bg-violet-200"><i class="fas fa-magic text-xs"></i> <span>KI</span></button>
                         </div>
-                        <div class="flex flex-wrap gap-2 mt-3">
-                            ${cvData.skills.map((skill, sIdx) => `<span contenteditable="true" onblur="updateSkillFromPreview(this, ${sIdx})" class="preview-editable inline-block px-4 py-1 bg-slate-100 text-slate-700 rounded-full text-sm font-medium">${skill}</span>`).join('')}
+                        <div class="flex flex-wrap gap-1.5 mt-2">
+                            ${cvData.skills.map((skill, sIdx) => `<span contenteditable="true" onblur="updateSkillFromPreview(this, ${sIdx})" class="preview-editable inline-block px-3 py-0.5 bg-slate-100 text-slate-700 rounded-full text-xs font-medium">${skill}</span>`).join('')}
                         </div>
                     </div>
                 `;
@@ -750,9 +785,9 @@
 
             if (cvData.languages && cvData.languages.length > 0) {
                 html += `
-                    <div class="px-10 pt-8 pb-10" data-section="languages">
+                    <div class="px-8 pt-6 pb-8" data-section="languages">
                         <div class="section-header text-sm tracking-[1px]">SPRACHEN</div>
-                        <div class="grid grid-cols-2 gap-x-8 mt-3 text-sm">
+                        <div class="grid grid-cols-2 gap-x-6 mt-2 text-xs">
                             ${cvData.languages.map((lang, lIdx) => `<div><span contenteditable="true" onblur="updateLanguageFromPreview(this, ${lIdx}, 'language')" class="preview-editable font-medium">${lang.language}</span> <span class="text-slate-500">—</span> <span contenteditable="true" onblur="updateLanguageFromPreview(this, ${lIdx}, 'level')" class="preview-editable text-slate-600">${lang.level}</span></div>`).join('')}
                         </div>
                     </div>
@@ -958,7 +993,7 @@
             createNewCV();
         }
 
-        // IMPROVED SLIDER FUNCTIONS (Tailwind translate classes)
+        // SLIDER FUNCTIONS
         function openLeftSlider() {
             const slider = document.getElementById('left-slider');
             const overlay = document.getElementById('slider-overlay');
@@ -1074,7 +1109,7 @@
                 }, 2200);
             }
 
-            console.log('%c[CVPure] Slide-in Slider Bugfix (Tailwind translate) geladen ✓', 'color:#6B46C1');
+            console.log('%c[CVPure] Mobile-Ready Header + Maximized Editor Width ✓', 'color:#6B46C1');
         }
 
         window.onload = function() { initEverything(); };
