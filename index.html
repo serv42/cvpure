@@ -26,26 +26,9 @@
         @media (max-width: 900px) {
             .a4-preview { width: 100%; max-width: 380px; min-height: 540px; transform: scale(0.95); margin: 0 auto; }
         }
-        .cv-section { transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); }
-        .editable { transition: background-color 0.1s; }
-        .editable:hover { background-color: #f8fafc; }
-        .template-modern .accent-bar { background: linear-gradient(to right, var(--accent-color), #4F46E5); }
-        .template-classic { font-family: 'Georgia', serif; }
-        .template-creative { background: linear-gradient(to bottom, #f8fafc, white); }
-        .section-header { color: var(--accent-color); border-bottom: 2px solid var(--accent-color); padding-bottom: 4px; margin-bottom: 12px; font-weight: 600; }
-        .nav-active { color: #6B46C1; border-bottom: 2px solid #6B46C1; }
-        .cv-card { transition: transform 0.3s cubic-bezier(0.4, 0.0, 0.2, 1), box-shadow 0.3s; }
-        .cv-card:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
-        .sortable-ghost { opacity: 0.4; background: #e0e7ff; }
-        .toast { animation: slideUp 0.3s ease forwards; }
-        @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .preview-editable { outline: none; }
         .preview-editable:focus { background-color: #fefce8; box-shadow: 0 0 0 2px #fde047; }
         .mini-preview { width: 100%; height: 120px; overflow: hidden; border: 1px solid #e5e7eb; position: relative; }
-        .slider { transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1); }
-        .slider.open { transform: translateX(0); }
-        .slider.left { transform: translateX(-100%); }
-        .slider.right { transform: translateX(100%); }
     </style>
 </head>
 <body class="bg-slate-50 font-sans">
@@ -313,7 +296,6 @@
                 </div>
                 
                 <div class="flex items-center gap-x-2">
-                    <!-- Mobile-friendly slider buttons -->
                     <button onclick="openLeftSlider()" class="px-4 py-2.5 text-sm font-medium border border-slate-300 rounded-2xl flex items-center gap-x-2 hover:bg-white">
                         <i class="fas fa-bars"></i>
                         <span class="hidden sm:inline">Abschnitte</span>
@@ -333,12 +315,11 @@
                 </div>
             </div>
 
-            <!-- CENTER: A4 PREVIEW (now full width focus) -->
+            <!-- CENTER: A4 PREVIEW -->
             <div class="flex justify-center">
                 <div id="preview-container" class="relative">
                     <div id="a4-preview" class="a4-preview border border-slate-300 rounded-3xl overflow-hidden template-modern" 
                          style="box-shadow: 0 35px 60px -15px rgb(15 23 42 / 0.3);">
-                        <!-- Dynamic CV content -->
                     </div>
                     <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-white px-4 py-1 rounded-full text-xs text-slate-500 border shadow-sm flex items-center gap-x-1">
                         <i class="fas fa-info-circle"></i> <span>A4 Vorschau • 210 × 297 mm</span>
@@ -348,8 +329,9 @@
         </div>
     </div>
 
-    <!-- LEFT SLIDER: Abschnitte -->
-    <div id="left-slider" class="slider left fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[100] border-r border-slate-200 flex flex-col">
+    <!-- LEFT SLIDER -->
+    <div id="left-slider" 
+         class="fixed top-0 left-0 h-full w-80 bg-white shadow-2xl z-[100] border-r border-slate-200 flex flex-col -translate-x-full transition-transform duration-300">
         <div class="p-5 border-b flex items-center justify-between">
             <div class="font-semibold text-lg flex items-center gap-x-2">
                 <i class="fas fa-bars text-violet-600"></i> 
@@ -367,7 +349,7 @@
             </div>
             
             <ul id="sections-list" class="space-y-1 text-sm">
-                <!-- Populated by JS -->
+                <!-- JS populated -->
             </ul>
             
             <div class="mt-8 pt-6 border-t border-slate-100">
@@ -379,8 +361,9 @@
         </div>
     </div>
 
-    <!-- RIGHT SLIDER: Design + KI -->
-    <div id="right-slider" class="slider right fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-[100] border-l border-slate-200 flex flex-col">
+    <!-- RIGHT SLIDER -->
+    <div id="right-slider" 
+         class="fixed top-0 right-0 h-full w-80 bg-white shadow-2xl z-[100] border-l border-slate-200 flex flex-col translate-x-full transition-transform duration-300">
         <div class="p-5 border-b flex items-center justify-between">
             <div class="font-semibold text-lg flex items-center gap-x-2">
                 <i class="fas fa-palette text-violet-600"></i> 
@@ -390,10 +373,9 @@
         </div>
         
         <div class="p-5 flex-1 overflow-y-auto space-y-8">
-            <!-- Vorlage -->
             <div>
                 <label class="text-xs text-slate-500 block mb-1.5 font-medium">VORLAGE</label>
-                <select id="template-select" onchange="changeTemplate(this.value); closeRightSlider();" class="w-full border border-slate-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-violet-300">
+                <select id="template-select" onchange="changeTemplate(this.value); closeRightSlider();" class="w-full border border-slate-200 rounded-2xl px-4 py-3 text-sm">
                     <option value="modern">Modern (Standard)</option>
                     <option value="classic">Classic</option>
                     <option value="creative">Creative</option>
@@ -403,7 +385,6 @@
                 </select>
             </div>
 
-            <!-- Akzentfarbe -->
             <div>
                 <label class="text-xs text-slate-500 block mb-1.5 font-medium">AKZENTFARBE</label>
                 <div class="flex items-center gap-x-3">
@@ -415,10 +396,9 @@
                 </div>
             </div>
 
-            <!-- Schriftart -->
             <div>
                 <label class="text-xs text-slate-500 block mb-1.5 font-medium">SCHRIFTART</label>
-                <select id="font-select" onchange="changeFont(this.value); closeRightSlider();" class="w-full border border-slate-200 rounded-2xl px-4 py-3 text-sm focus:outline-none focus:border-violet-300">
+                <select id="font-select" onchange="changeFont(this.value); closeRightSlider();" class="w-full border border-slate-200 rounded-2xl px-4 py-3 text-sm">
                     <option value="Inter, system-ui, sans-serif">Inter (Modern)</option>
                     <option value="Georgia, 'Times New Roman', serif">Georgia (Klassisch)</option>
                     <option value="system-ui, -apple-system, sans-serif">System UI</option>
@@ -426,7 +406,6 @@
                 </select>
             </div>
 
-            <!-- KI-Assistent -->
             <div class="pt-4 border-t border-slate-100">
                 <div class="flex items-center gap-x-2 mb-4">
                     <i class="fas fa-robot text-violet-600 text-xl"></i>
@@ -453,10 +432,10 @@
         </div>
     </div>
 
-    <!-- Overlay for sliders -->
+    <!-- Overlay -->
     <div id="slider-overlay" onclick="closeAllSliders()" class="hidden fixed inset-0 bg-black/40 z-[90]"></div>
 
-    <!-- Toast Container -->
+    <!-- Toast -->
     <div id="toast-container" class="fixed bottom-6 right-6 z-[200] space-y-2"></div>
 
     <script>
@@ -478,7 +457,6 @@
         };
 
         let currentView = 'landing';
-        let sortableInstance = null;
         let currentCVId = null;
 
         const templatesData = [
@@ -682,7 +660,6 @@
 
             let html = '';
 
-            // Header
             html += `
                 <div class="px-10 pt-10 pb-8 flex items-start gap-x-6 border-b border-slate-200" style="background: linear-gradient(to right, ${cvData.accentColor}08, transparent);">
                     ${cvData.personal.photo ? 
@@ -704,7 +681,6 @@
                 </div>
             `;
 
-            // Summary
             if (cvData.summary) {
                 html += `
                     <div class="px-10 pt-8" data-section="summary">
@@ -717,7 +693,6 @@
                 `;
             }
 
-            // Experience
             if (cvData.experience && cvData.experience.length > 0) {
                 html += `<div class="px-10 pt-8" data-section="experience"><div class="section-header text-sm tracking-[1px]">BERUFSERFAHRUNG</div>`;
                 cvData.experience.forEach((exp, idx) => {
@@ -742,7 +717,6 @@
                 html += `</div>`;
             }
 
-            // Education
             if (cvData.education && cvData.education.length > 0) {
                 html += `<div class="px-10 pt-8" data-section="education"><div class="section-header text-sm tracking-[1px]">AUSBILDUNG</div>`;
                 cvData.education.forEach((edu, idx) => {
@@ -760,7 +734,6 @@
                 html += `</div>`;
             }
 
-            // Skills
             if (cvData.skills && cvData.skills.length > 0) {
                 html += `
                     <div class="px-10 pt-8" data-section="skills">
@@ -775,7 +748,6 @@
                 `;
             }
 
-            // Languages
             if (cvData.languages && cvData.languages.length > 0) {
                 html += `
                     <div class="px-10 pt-8 pb-10" data-section="languages">
@@ -986,11 +958,12 @@
             createNewCV();
         }
 
-        // SLIDER FUNCTIONS
+        // IMPROVED SLIDER FUNCTIONS (Tailwind translate classes)
         function openLeftSlider() {
             const slider = document.getElementById('left-slider');
             const overlay = document.getElementById('slider-overlay');
-            slider.classList.add('open');
+            slider.classList.remove('-translate-x-full');
+            slider.classList.add('translate-x-0');
             overlay.classList.remove('hidden');
             renderSectionsList();
         }
@@ -998,8 +971,9 @@
         function closeLeftSlider() {
             const slider = document.getElementById('left-slider');
             const overlay = document.getElementById('slider-overlay');
-            slider.classList.remove('open');
-            if (!document.getElementById('right-slider').classList.contains('open')) {
+            slider.classList.remove('translate-x-0');
+            slider.classList.add('-translate-x-full');
+            if (!document.getElementById('right-slider').classList.contains('translate-x-0')) {
                 overlay.classList.add('hidden');
             }
         }
@@ -1007,23 +981,31 @@
         function openRightSlider() {
             const slider = document.getElementById('right-slider');
             const overlay = document.getElementById('slider-overlay');
-            slider.classList.add('open');
+            slider.classList.remove('translate-x-full');
+            slider.classList.add('translate-x-0');
             overlay.classList.remove('hidden');
         }
 
         function closeRightSlider() {
             const slider = document.getElementById('right-slider');
             const overlay = document.getElementById('slider-overlay');
-            slider.classList.remove('open');
-            if (!document.getElementById('left-slider').classList.contains('open')) {
+            slider.classList.remove('translate-x-0');
+            slider.classList.add('translate-x-full');
+            if (!document.getElementById('left-slider').classList.contains('translate-x-0')) {
                 overlay.classList.add('hidden');
             }
         }
 
         function closeAllSliders() {
-            document.getElementById('left-slider').classList.remove('open');
-            document.getElementById('right-slider').classList.remove('open');
-            document.getElementById('slider-overlay').classList.add('hidden');
+            const left = document.getElementById('left-slider');
+            const right = document.getElementById('right-slider');
+            const overlay = document.getElementById('slider-overlay');
+            
+            left.classList.remove('translate-x-0');
+            left.classList.add('-translate-x-full');
+            right.classList.remove('translate-x-0');
+            right.classList.add('translate-x-full');
+            overlay.classList.add('hidden');
         }
 
         function setupColorPicker() {
@@ -1062,7 +1044,6 @@
                 if (e.key === 'Escape') { closeAllSliders(); }
             });
 
-            // Initial values
             document.getElementById('accent-color-picker').value = cvData.accentColor;
             document.getElementById('accent-color-hex').textContent = cvData.accentColor;
             document.getElementById('font-select').value = cvData.font;
@@ -1093,7 +1074,7 @@
                 }, 2200);
             }
 
-            console.log('%c[CVPure] Optimierte Version mit Slide-in Sidebars (Mobile-First) geladen ✓', 'color:#6B46C1');
+            console.log('%c[CVPure] Slide-in Slider Bugfix (Tailwind translate) geladen ✓', 'color:#6B46C1');
         }
 
         window.onload = function() { initEverything(); };
